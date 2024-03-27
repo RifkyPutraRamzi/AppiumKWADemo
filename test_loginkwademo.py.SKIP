@@ -1,0 +1,26 @@
+from appium import webdriver
+from appium.options.android.uiautomator2.base import UiAutomator2Options
+from appium.webdriver.common.appiumby import AppiumBy
+
+options = UiAutomator2Options()
+
+options.udid = 'a1749a50'
+options.platform_name = 'Android'
+options.app_package = 'com.code2lead.kwad'
+options.app_activity = 'com.code2lead.kwad.MainActivity'
+
+def test_login():
+    driver = webdriver.Remote('http://127.0.0.1:4723', options=options)
+    driver.implicitly_wait(10)
+
+    driver.find_element(AppiumBy.XPATH,'//android.widget.Button[@content-desc="Btn6"]').click() # homepage
+    driver.find_element(AppiumBy.ID,'com.code2lead.kwad:id/Et4').send_keys('admin@gmail.com') #login
+    driver.find_element(AppiumBy.ID,'com.code2lead.kwad:id/Et5').send_keys('admin123') #login
+    driver.find_element(AppiumBy.ID,'com.code2lead.kwad:id/Btn3').click() #login
+    
+    text_enter_admin = driver.find_element(AppiumBy.XPATH,'//android.widget.TextView[@text="Enter Admin"]').text #admin
+    
+    assert text_enter_admin == 'Enter Admin' #admin
+
+    driver.quit()
+    
